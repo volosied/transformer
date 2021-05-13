@@ -77,6 +77,10 @@ public class TestTransformManifest extends CaptureTest {
 	public static final String	JAKARTA_SERVLET_HTTP_VERSION		= "[2.6, 6.0)";
 	public static final String	JAKARTA_SERVLET_RESOURCES_VERSION	= "[2.6, 6.0)";
 
+	// Used to Test Removal 
+	public static final String APACHE_COMMONS_FILEUPLOAD = "org.apache.commons.fileupload";
+	public static final String APACHE_COMMONS_FILEUPLOAD_VERSION = "[1.3,2)";
+
 	public Set<String> getIncludes() {
 		return Collections.emptySet();
 	}
@@ -105,6 +109,8 @@ public class TestTransformManifest extends CaptureTest {
 			packageRenames.put(JAVAX_TRANSACTION_TM, JAKARTA_TRANSACTION_TM);
 			packageRenames.put(JAVAX_TRANSACTION_TSR, JAKARTA_TRANSACTION_TSR);
 			packageRenames.put(JAVAX_TRANSACTION_UT, JAKARTA_TRANSACTION_UT);
+			//Test Removal From MANIFEST
+			packageRenames.put(APACHE_COMMONS_FILEUPLOAD, "<remove>");
 		}
 		return packageRenames;
 	}
@@ -119,6 +125,7 @@ public class TestTransformManifest extends CaptureTest {
 			packageVersions.put(JAVAX_SERVLET_DESCRIPTOR, JAKARTA_SERVLET_DESCRIPTOR_VERSION);
 			packageVersions.put(JAVAX_SERVLET_HTTP, JAKARTA_SERVLET_HTTP_VERSION);
 			packageVersions.put(JAVAX_SERVLET_RESOURCES, JAKARTA_SERVLET_RESOURCES_VERSION);
+			packageVersions.put(APACHE_COMMONS_FILEUPLOAD, APACHE_COMMONS_FILEUPLOAD_VERSION);
 		}
 		return packageVersions;
 	}

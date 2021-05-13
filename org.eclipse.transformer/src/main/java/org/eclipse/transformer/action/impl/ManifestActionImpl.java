@@ -340,6 +340,11 @@ public class ManifestActionImpl extends ActionImpl {
 				}
 
 				String value = renameEntry.getValue();
+				Boolean shouldRemove = false;
+				if(value.equals("<remove>")){
+					value="";
+					shouldRemove = true;
+				}
 				int valueLen = value.length();
 
 				String head = text.substring(0, matchStart);
@@ -348,7 +353,9 @@ public class ManifestActionImpl extends ActionImpl {
 				int tailLenBeforeReplaceVersion = tail.length();
 
 				String newVersion = getPackageVersions().get(value);
-				if (newVersion != null) {
+				if(shouldRemove){
+					tail = removePackageVersion(tail);
+				} else if (newVersion != null) {
 					tail = replacePackageVersion(tail, newVersion);
 				} else {
 					debug("replacePackages [ {} ]: [ {} -> {} ]; leaving version", initialText, key, value);
@@ -375,6 +382,22 @@ public class ManifestActionImpl extends ActionImpl {
 			// System.out.println("Final text [ " + text + " ]");
 			return text;
 		}
+	}
+
+	protected String removePackageVersion(String text) {
+		// debug("replacePackageVersion: ( {} )", text );
+
+		String packageText = getPackageAttributeText(text);
+
+		if (packageText == null) {
+			return text;
+		} else if (packageText.isEmpty()) {
+			return text;
+		}
+
+		debug("removePackageVersion for {}", packageText);
+		return text.substring(packageText.length(), text.length());
+
 	}
 
 	// DynamicImport-Package: com.ibm.websphere.monitor.meters;version="1.0.0
